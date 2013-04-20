@@ -19,12 +19,33 @@ html {
 	padding-left:0px;
 }
 
+#story_text {
+    background-color: #01DFD7;
+    height: 400px;
+    left: 71.5%;
+    padding: 10px;
+    position: absolute;
+    top: 464px;
+    width: 344px;
+}
+
+#auto_manual{
+	position:absolute;
+	top:440px;
+	left:70%;
+}
+
+.video {
+	width:300px;
+	height:200px;
+}
+
 .title {
     width: 100%;
     text-align: center;
     font: 22pt times;
 	margin-top:0px;
-	background-color:lightgray;
+	background-color:#01DFD7;
 	margin-bottom:30px;
 	border-bottom:2px solid darkgray;
     padding:5px;
@@ -102,7 +123,7 @@ html {
     text-align: left;
 	position:absolute;
 	left:10%;
-	top:613px;
+	top:625px;
 }
 
 #presentation {
@@ -175,7 +196,7 @@ html {
 	margin-top:20px;
 }
 
-#bullet {
+#bar {
 	float:left;
 	width:400px;
 	height:82px;
@@ -183,7 +204,7 @@ html {
 	margin-top:50px;
 	position:absolute;
 	top:564px;
-	left:43.5%;
+	left:38.5%;
 	color:lightgray;
 }
 
@@ -194,6 +215,70 @@ html {
 	float:left;
 }
 
+.max_boston {
+	width:30px;
+	background-color:red;
+	position:absolute;
+	color:gray;
+	vertical-align:text-bottom;
+    padding-bottom: -10px;
+	z-index:0;
+	text-align:center;
+    border: 1px solid black;
+}
+
+.avg_boston {
+	width:30px;
+	background-color:red;
+	position:absolute;
+	color:gray;
+	vertical-align:text-bottom;
+    padding-bottom: -10px;
+	z-index:0;
+	text-align:center;
+    border: 1px solid black;
+	margin-left:70px;
+}
+
+.avg_zip {
+	width:30px;
+	background-color:blue;
+	position:absolute;
+	color:gray;
+	vertical-align:text-bottom;
+    padding-bottom: -10px;
+	z-index:0;
+	text-align:center;
+    border: 1px solid black;
+	margin-left:101px;
+}
+
+.avg_zestimate {
+	width:30px;
+	background-color:red;
+	position:absolute;
+	color:gray;
+	vertical-align:text-bottom;
+    padding-bottom: -10px;
+	z-index:0;
+	text-align:center;
+    border: 1px solid black;
+	margin-left:142px;
+}
+
+.avg_zestimate_zip {
+	width:30px;
+	background-color:blue;
+	position:absolute;
+	color:gray;
+	vertical-align:text-bottom;
+    padding-bottom: -10px;
+	z-index:0;
+	text-align:center;
+    border: 1px solid black;
+	margin-left:173px;
+}
+
 .actual {
     background-color: blue;
     color: grey;
@@ -201,47 +286,53 @@ html {
     position: absolute;
     z-index: 2;
 	text-align:center;
-	margin-left:62px;
-    border: 2px solid black;
+	margin-left:61px;
+    border: 1px solid black;
+	
 }
 
 .zestimate {
     background-color: #A6BDDB;
     color: grey;
     width:60px;
-	margin-left:124px;
+	margin-left:122px;
     position: absolute;
     vertical-align: bottom;
 	text-align:center;
     z-index:1;
-    border: 2px solid black;
+    border: 1px solid black;
 }
 
 .max {
-	width:60px;
-	background-color:#ECE7F2;
+	width:30px;
+	background-color:blue;
 	position:absolute;
 	color:gray;
 	vertical-align:text-bottom;
     padding-bottom: -10px;
 	z-index:0;
 	text-align:center;
-    border: 2px solid black;
+    border: 1px solid black;
+	margin-left:31px;
 }
 
 code {
 	padding-left:5px;
 }
 
-#bullet_help {
-    color: gray;
+#bar_help {
     height: 10px;
-    left: 50%;
+    left: 40%;
     margin-bottom: 5px;
     position: absolute;
     text-align: center;
-    top: 515px;
+    top: 621px;
     vertical-align: text-top;
+	display:none;
+}
+
+#bar_help span {
+	padding-left:30px;
 }
 
 #tt {

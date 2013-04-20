@@ -72,6 +72,43 @@ function getZipPolygonCoords(zip) {
 	return coords_array;
 }
 
+
+/** returns an array of max, actual average, and zestimate for the listings of boston */
+function getForSaleStats(type) {
+	var max = 0;
+	var price_sum = 0;
+	var zestimate_sum = 0;
+	var average_price = 0;
+	var average_zestimate = 0;
+	var selected = "";
+	var stats = new Array();
+	
+	if (type == "for_sale") {
+		selected = data_for_sale; 
+	} else if (type == "sold") {
+		selected = data_sold;
+	}
+
+	var count = selected.length;
+	
+	for (var i in selected) {
+		if(parseInt(selected[i].price) >= max) {
+			max = parseInt(selected[i].price);
+		}
+		price_sum += parseInt(selected[i].price);
+		zestimate_sum += parseInt(selected[i].zestimate);
+	}
+	
+	average_price = parseInt(price_sum/count);
+	average_zestimate = parseInt(zestimate_sum/count);
+	
+	stats.push(max);
+	stats.push(average_price);
+	stats.push(average_zestimate);
+	
+	return stats;
+}
+
 /** filters the data based on selected controls and calls for a "redraw" of the map */
 function filter() {
 	// clear all output arrays
@@ -138,8 +175,8 @@ function filter() {
 	// clear out details on demand div
 	document.getElementById("details").innerHTML = "";
     
-    // clear out bullet graph
-	clearBulletGraph();
+    // clear out bar chart
+	clearbarChart();
 	
 	// if map is loaded, redraw polygons
 	if(map) {
@@ -148,15 +185,16 @@ function filter() {
 	} 
 }
 
-/** clears out bullet graph */
-function clearBulletGraph() {
-	document.getElementById("bullet").innerHTML = "";
+/** clears out bar chart */
+function clearbarChart() {
+	document.getElementById("bar").innerHTML = "";
+	$("#bar_help").hide();
 }	
 
 /** draws the polygons onto the google map */
 function layPolygons() {
-	// clear out bullet graph
-	clearBulletGraph();
+	// clear out bar chart
+	clearbarChart();
 	for (var i in zips_coords) {
 			// zip area polygon coordinates
 			var zipCoords = getZipPolygonCoords(zips_coords[i].zip);
@@ -186,7 +224,7 @@ function layPolygons() {
 
 /** 
 	callback function when clicking on a google map polygon (i.e. zip code) 
-	fills the selected zip area with a predefined color and updates the bullet graph and scatterplot
+	fills the selected zip area with a predefined color and updates the bar chart and scatterplot
 */
 function selectZipArea(zipArea,zip) {
 	return function() {
@@ -201,7 +239,7 @@ function selectZipArea(zipArea,zip) {
 		zipArea.setMap(null);
 		
 		// change the color of the select zip code area
-		zipArea.fillColor = "blue";
+		zipArea.fillColor = "#0000FF";
 		
 		// put the zip code polygon back on the map
 		zipArea.setMap(map);
@@ -209,8 +247,8 @@ function selectZipArea(zipArea,zip) {
 		// output details on demand in designated div
 		showDetails(zip);
 		
-		// create bullet graph
-		bulletGraph(zip);
+		// create bar chart
+		barChart(zip);
 
 		//PASS THE ZIP CODE TO SCATTER PLOT BELOW
 		updateChartZip(zip);
@@ -439,22 +477,27 @@ function loadBuckets(d,beds,baths,min_sqft,max_sqft,min_year,max_year,min_price,
 	}
 }
 
-/** creates a bullet graph of actual versus project price based on selected zip code */
-function bulletGraph(zip) {
-	// remove the "actual" bar
-	d3.select(".actual").remove();
-	// remove the "zestimate" bar
-	d3.select(".zestimate").remove();
-	// remove the "max" bar
-	d3.select(".max").remove();
-	// scale our range to maximum price of selected zip, and the range to the width of the bullet graph
-	var scale =	d3.scale.linear().domain([0,d3.max(maxes,function(d){return d})]).range([0,250]);
+/** creates a bar chart of actual versus project price based on selected zip code */
+function barChart(zip) {
+
+	// clear bart chart
+	$("#bar").html("");
+	selected = "";
+	
+	if (document.getElementById("forsale").checked == true) {
+		selected = "for_sale";
+	} else if (document.getElementById("sold").checked == true) {
+		selected = "sold";
+	}
+	
+	// scale our range to maximum price of boston, and the range of the height of the bar chart
+	var scale =	d3.scale.linear().domain([0,getForSaleStats(selected)[0]]).range([0,250]);
 	// scale actual price amount
-	price = scale(parseInt(parseInt(prices[zip])/parseInt(counts[zip])));
+	price = parseInt(parseInt(prices[zip])/parseInt(counts[zip]));
 	// scale max value per selected zip
 	max = scale(parseInt(maxes[zip]));
 	// scale zestimate amount
-	zestimate = scale(parseInt(parseInt(zestimates[zip])/parseInt(counts[zip])));
+	zestimate = parseInt(parseInt(zestimates[zip])/parseInt(counts[zip]));
 	// price data array to be passed to d3
 	price = [price];
 	// zestimate data array to be passed to d3
@@ -462,33 +505,71 @@ function bulletGraph(zip) {
 	// max data array to be passed to d3
 	max = [max];
 	
-	// add animated bars to bullet graph with set parameters
-    d3.select("#bullet").selectAll("div").data(price).enter().append("div")
-        .attr("class","actual")
-        .transition().duration(600)
-            .style("height",function(d){return d+"px"})
-            .style("top",function(d) {return "-"+d+"px"})
-            .text("actual avg")
-            .attr("onmousemove",function(d) {return "tooltip.show('Average Price: $" + withCommas(Math.round(prices[zip]/parseInt(counts[zip])))+"');"})
-            .attr("onmouseout","tooltip.hide();");
-    
-    d3.select("#bullet").data(zestimate).append("div")
-        .attr("class","zestimate")
-        .transition().duration(1000)
-            .style("height",function(d){return d+"px"})
-            .style("top",function(d) {return "-"+d+"px"})
-            .text("zestimate avg")
-            .attr("onmousemove",function(d) {return "tooltip.show('Average Zestimate: $" + withCommas(Math.round(zestimates[zip]/parseInt(counts[zip])))+"');"})
-            .attr("onmouseout","tooltip.hide();");
-            
-	d3.select("#bullet").data(max).append("div")
-        .attr("class","max")
+	// maximum price for boston
+	max_all = getForSaleStats(selected)[0];
+	
+	// average actual price for boston
+	avg_actual_all = getForSaleStats(selected)[1];
+	
+	// average zestimate price for boston
+	avg_zestimate_all = getForSaleStats(selected)[2];
+	
+    d3.select("#bar").selectAll("div").data([scale(max_all)]).enter().append("div")
+        .attr("class","max_boston")
+		.style("top","0px")
         .transition().duration(1300)
             .style("height",function(d){return d+"px"})
             .style("top",function(d) {return "-"+d+"px"})
-            .text("max")
-            .attr("onmousemove",function(d) {return "tooltip.show('Max Price: $" + withCommas(Math.round(maxes[zip]))+"');"})
+            .attr("onmousemove",function(d) {return "tooltip.show('Max Price (Boston) : $" + withCommas(max_all)+"');"})
             .attr("onmouseout","tooltip.hide();");
+	
+	d3.select("#bar").data(max).append("div")
+        .attr("class","max")
+		.style("top","0px")
+        .transition().duration(600)
+            .style("height",function(d){return d+"px"})
+            .style("top",function(d) {return "-"+d+"px"})
+            .attr("onmousemove",function(d) {return "tooltip.show('Max price (zip 0" + zip + ") : $" + withCommas(Math.round(maxes[zip]))+"');"})
+            .attr("onmouseout","tooltip.hide();");
+	
+    d3.select("#bar").data([scale(avg_actual_all)]).append("div")
+        .attr("class","avg_boston")
+		.style("top","0px")
+        .transition().duration(1300)
+            .style("height",function(d){return d+"px"})
+            .style("top",function(d) {return "-"+d+"px"})
+            .attr("onmousemove",function(d) {return "tooltip.show('Average Price (Boston) : $" + withCommas(avg_actual_all)+"');"})
+            .attr("onmouseout","tooltip.hide();");
+			
+    d3.select("#bar").data([scale(price)]).append("div")
+        .attr("class","avg_zip")
+		.style("top","0px")
+        .transition().duration(600)
+            .style("height",function(d){return d+"px"})
+            .style("top",function(d) {return "-"+d+"px"})
+            .attr("onmousemove",function(d) {return "tooltip.show('Average Price (zip 0" + zip + ") : $" + withCommas(price)+"');"})
+            .attr("onmouseout","tooltip.hide();");
+			
+    d3.select("#bar").data([scale(avg_zestimate_all)]).append("div")
+        .attr("class","avg_zestimate")
+		.style("top","0px")
+        .transition().duration(600)
+            .style("height",function(d){return d+"px"})
+            .style("top",function(d) {return "-"+d+"px"})
+            .attr("onmousemove",function(d) {return "tooltip.show('Average Zestimate (Boston) : $" + withCommas(avg_zestimate_all)+"');"})
+            .attr("onmouseout","tooltip.hide();");
+			
+    d3.select("#bar").data([scale(zestimate)]).append("div")
+        .attr("class","avg_zestimate_zip")
+		.style("top","0px")
+        .transition().duration(600)
+            .style("height",function(d){return d+"px"})
+            .style("top",function(d) {return "-"+d+"px"})
+            .attr("onmousemove",function(d) {return "tooltip.show('Average Zestimate (zip 0" + zip + ") : $" + withCommas(zestimate)+"');"})
+            .attr("onmouseout","tooltip.hide();");
+	
+	// show bar labels
+	$("#bar_help").show();
 }
 
 /** creates the price-per-foot scatterplot  */
@@ -649,6 +730,33 @@ function updateChartZip(zip) {
 /** returns all the listing details in string form */
 function listingToDetailsString(listingIn) {
     return "Price: $" + withCommas(listingIn.price) + "<br/>" + "SqFt: " + withCommas(listingIn.sqft) + "<br/>" +  "Beds: " + listingIn.beds + "<br/>" + "Baths: " + listingIn.baths + "<br/>" + "Zipcode: 0" + listingIn.zip + "<br/>" + "Zestimate: $" + withCommas(listingIn.zestimate);
+}
+
+function mostExpensive(auto) {
+	google.maps.event.trigger(polygons[0],'click');
+	$("#story_text").html("Beacon hill is the most expensive city in Boston<br /><br />");
+	d3.select("#story_text").append("span").attr("onclick","nearWater()").style("cursor","pointer").text(">>");
+	if(auto) {
+		setTimeout(function(){nearWater(auto)},3000);
+	}
+}
+
+function nearWater(auto) {
+	$("#story_text").html("Beacon hill is just a few miles away from the water");
+	d3.select("#story_text").append("span").attr("onclick","oldBuildings()").style("cursor","pointer").text(">>")
+	d3.select("#story_text").append("img").attr("src","http://www.beacon-hill-boston.com/images/beaconhill/beaconhill_2.jpg?1288910742");
+	if(auto) {
+		setTimeout(function(){oldBuildings()},3000);
+	}
+}
+
+function oldBuildings() {
+	$("#story_text").html("Beacon hill has old buildings");
+	d3.select("#story_text").append("iframe").attr("src","http://www.youtube.com/embed/zicmF7Pghfs").attr("class","video");
+}
+
+function play() {
+	mostExpensive(true);
 }
 
 

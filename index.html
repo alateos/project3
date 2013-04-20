@@ -738,10 +738,16 @@
 		<!-- shows our project presentation -->
 		<div id="description"><a href="#" onclick="toggleDescription()">[ DESCRIPTION ]</a></div>
 		
-		<div id="bullet_help">[ PLEASE SELECT A ZIP CODE BUBBLE FOR DETAILS ]</div>
+		<div id="bar_help"><span>Max</span><span>Actual</span><span>Zestimate</span></div>
 		
-		<!-- placeholder for bullet graph -->
-        <div id="bullet"></div>
+		<div id="auto_manual">
+			<a href="#" onclick="mostExpensive()">MANUAL</a> 
+			<a href="#" onclick="play()">AUTO</a>
+		</div>
+		<div id="story_text"></div>
+		
+		<!-- placeholder for bar chart -->
+        <div id="bar"></div>
 		
 		<!--
 		<div id="common_controls">
@@ -831,7 +837,7 @@
 		<ol>
 			<li>The Overhead Map, which allows the user to efficiently compare different zip codes' locations and general measures such as number of homes for sale (or sold), as well as average price of those homes. It also allows a user to click a specific zip code bubble for more details (see #3) and to reveal those listings on the scatterplot.</li>
 			<li>The Price-per-SqFt Scatterplot shows all of the listings in the area (filtered by the Controls), and is also linked to the Overhead Map.</li>
-			<li>The Zip Code Bullet Graph appears upon selecting a zip code bubble, and shows the average price, Zestimate price, and max price of the selected zip code to better inform the viewer of the properties of that zip code.</li>
+			<li>The Zip Code bar chart appears upon selecting a zip code bubble, and shows the average price, Zestimate price, and max price of the selected zip code to better inform the viewer of the properties of that zip code.</li>
 			<li>The Controls, which are linked to all of the other views of the visualization.</li>
 		</ol>
 		<h4>Each of these enables the general principles of interactive visualizations:</h4>
