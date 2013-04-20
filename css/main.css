@@ -5,6 +5,7 @@ body {
     padding: 0;
 	overflow-x:hidden;
 	background-color:white;
+	font-family:calibri;
 }
 
 html {
@@ -20,7 +21,7 @@ html {
 }
 
 #story_text {
-    background-color: #01DFD7;
+    background-color: #90DACC;
     height: 400px;
     left: 71.5%;
     padding: 10px;
@@ -45,10 +46,12 @@ html {
     text-align: center;
     font: 22pt times;
 	margin-top:0px;
-	background-color:#01DFD7;
+	margin-top:0px;
+	background-color:#7EB8E1;
 	margin-bottom:30px;
 	border-bottom:2px solid darkgray;
     padding:5px;
+	color:white;
 }
 .subtitle {
     width: 100%;
@@ -152,7 +155,7 @@ html {
 
 #presentation a,#presentation a:visited {
 	text-decoration:none;
-	color:gray;
+	color:white;
 }
 
 #presentation a:hover {
@@ -161,7 +164,7 @@ html {
 
 #description a,#description a:visited {
 	text-decoration:none;
-	color:gray;
+	color:white;
 }
 
 #description a:hover {
@@ -174,6 +177,7 @@ html {
 
 .value {
 	color:blue;
+	font-weight:bold;
 }	
 
 #houses {
@@ -203,7 +207,7 @@ html {
 	margin-left:30px;
 	margin-top:50px;
 	position:absolute;
-	top:564px;
+	top:579px;
 	left:38.5%;
 	color:lightgray;
 }
@@ -215,6 +219,7 @@ html {
 	float:left;
 }
 
+/**
 .max_boston {
 	width:30px;
 	background-color:red;
@@ -226,10 +231,11 @@ html {
 	text-align:center;
     border: 1px solid black;
 }
+*/
 
 .avg_boston {
-	width:30px;
-	background-color:red;
+	width:60px;
+	background-color:#F768A1;
 	position:absolute;
 	color:gray;
 	vertical-align:text-bottom;
@@ -237,11 +243,10 @@ html {
 	z-index:0;
 	text-align:center;
     border: 1px solid black;
-	margin-left:70px;
 }
 
 .avg_zip {
-	width:30px;
+	width:60px;
 	background-color:blue;
 	position:absolute;
 	color:gray;
@@ -250,12 +255,12 @@ html {
 	z-index:0;
 	text-align:center;
     border: 1px solid black;
-	margin-left:101px;
+	margin-left:61px;
 }
 
 .avg_zestimate {
-	width:30px;
-	background-color:red;
+	width:60px;
+	background-color:#F768A1;
 	position:absolute;
 	color:gray;
 	vertical-align:text-bottom;
@@ -263,11 +268,11 @@ html {
 	z-index:0;
 	text-align:center;
     border: 1px solid black;
-	margin-left:142px;
+	margin-left:151px;
 }
 
 .avg_zestimate_zip {
-	width:30px;
+	width:60px;
 	background-color:blue;
 	position:absolute;
 	color:gray;
@@ -276,9 +281,10 @@ html {
 	z-index:0;
 	text-align:center;
     border: 1px solid black;
-	margin-left:173px;
+	margin-left:212px;
 }
 
+/**
 .actual {
     background-color: blue;
     color: grey;
@@ -290,6 +296,7 @@ html {
     border: 1px solid black;
 	
 }
+*/
 
 .zestimate {
     background-color: #A6BDDB;
@@ -326,13 +333,13 @@ code {
     margin-bottom: 5px;
     position: absolute;
     text-align: center;
-    top: 621px;
+    top: 635px;
     vertical-align: text-top;
 	display:none;
 }
 
 #bar_help span {
-	padding-left:30px;
+	padding-left:31px;
 }
 
 #tt {

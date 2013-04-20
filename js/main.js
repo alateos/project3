@@ -286,12 +286,6 @@ function getDetails(zip) {
 	} else if (document.getElementById("average").checked) {
 		var average = text + "<br /><span class='label'>" + "Average price:</span> " + "<span class='value'>$" + withCommas(parseInt(prices[zip]/counts[zip])) + "</span>";
 		return average;
-	} else if (document.getElementById("max").checked) {
-		var maximum = text + "<br /><span class='label'>" + "Maximum price:</span> " + "<span class='value'>$" + withCommas(maxes[zip]) + "</span>";
-		return maximum;
-	} else if (document.getElementById("min").checked) {
-		var minimum = text + "<br /><span class='label'>" + "Minimum price:</span> " + "<span class='value'>$" + withCommas(mins[zip]) + "</span>";
-		return minimum;
 	}
 }
 
@@ -491,7 +485,7 @@ function barChart(zip) {
 	}
 	
 	// scale our range to maximum price of boston, and the range of the height of the bar chart
-	var scale =	d3.scale.linear().domain([0,getForSaleStats(selected)[0]]).range([0,250]);
+	var scale =	d3.scale.linear().domain([0,parseInt($("#slider-range-price").slider("values",1))]).range([0,250]);
 	// scale actual price amount
 	price = parseInt(parseInt(prices[zip])/parseInt(counts[zip]));
 	// scale max value per selected zip
@@ -514,6 +508,7 @@ function barChart(zip) {
 	// average zestimate price for boston
 	avg_zestimate_all = getForSaleStats(selected)[2];
 	
+	/** commented out max figures
     d3.select("#bar").selectAll("div").data([scale(max_all)]).enter().append("div")
         .attr("class","max_boston")
 		.style("top","0px")
@@ -531,8 +526,10 @@ function barChart(zip) {
             .style("top",function(d) {return "-"+d+"px"})
             .attr("onmousemove",function(d) {return "tooltip.show('Max price (zip 0" + zip + ") : $" + withCommas(Math.round(maxes[zip]))+"');"})
             .attr("onmouseout","tooltip.hide();");
+			
+	*/
 	
-    d3.select("#bar").data([scale(avg_actual_all)]).append("div")
+    d3.select("#bar").selectAll("div").data([scale(avg_actual_all)]).enter().append("div")
         .attr("class","avg_boston")
 		.style("top","0px")
         .transition().duration(1300)
