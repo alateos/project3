@@ -34,6 +34,14 @@ var colors = new Array();
 // tracks polygon colors
 var polygon_colors = new Array();
 
+$(function() {
+    $( "#controls" ).draggable();
+});
+
+function toggleFilters() {
+	$("#controls").toggle();
+}
+
 /** creates the google map and calls for the polygons to be created */
 function drawMap() {
 	// center of map

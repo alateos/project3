@@ -108,9 +108,9 @@ html {
 
 #listingtypes {
 	padding-left:15px;
-	margin-top:10px;
+	margin-top:30px;
 	margin-bottom:10px;
-	width:15%;
+	width:100%;
 	float:left;
 }
 
@@ -186,12 +186,12 @@ html {
 }
 
 #baths {
-	width:7%;
+	width:45%;
 	float:left;
 }
 
 #bedrooms {
-	width:7%;
+	width:45%;
 	float:left;
 	padding-left:20px;
 }
@@ -216,7 +216,40 @@ html {
 	background-color:lightgray;
 	width:15%;
 	height:50px;
-	float:left;
+	position:absolute;
+	width:500px;
+	height:380px;
+	cursor:move;
+	padding:20px;
+	left:30%;
+	top:30%;
+	box-shadow: 10px 10px 5px #888888;
+	display:none;
+}
+
+#filter {
+	font-weight:bold;
+	cursor:pointer;
+	font-size:22px;
+}
+
+#filter a, #filter a:visited {
+	color: blue;
+}
+
+#filter a:hover {
+	color:gray;
+}
+
+#X {
+	position:absolute;
+	float:right;
+	right:20px;
+	font-size:25px;
+	color:red;
+	width:30px;
+	height:30px;
+	cursor:pointer;
 }
 
 /**
@@ -372,7 +405,7 @@ code {
 
 #sliders {
 	margin-top:20px;
-	width:15%;
+	width:100%;
 	margin-left:20px;
 	float:left;
 }
@@ -385,7 +418,8 @@ code {
 #amountPrice,#amountSqft,#amountYear {
 	font-weight:normal;
 	border-style:none;
-	width:87px;
+	width:150px;
+	background-color:lightGray;
 	margin-bottom:10px;
 }
 
@@ -398,7 +432,7 @@ code {
 }
 
 .slider {
-	width:250px;
+	width:90%;
 }
 
 #mask,#description_mask {
