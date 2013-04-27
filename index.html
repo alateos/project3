@@ -715,7 +715,7 @@
         <div id="wrapper">
 			<div id="controls" data-intro="By using our custom controls, you can dig deeper into the visualization, and tell your own story." data-step="5">
 			<div id="controlsTitle">Filter by:</div>
-			<div id="X" onclick="toggleFilters()">X</div>
+			<div id="X" onclick="toggleFilters();introJs().exit()">X</div>
 			<div id="listingtypes">
 				<input id="forsale" onclick="filter(2)" type="radio" name="listing_type" checked />For Sale 
 				<input id="sold" onclick="filter(2)" type="radio" name="listing_type" />Sold (2011-2012)
