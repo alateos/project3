@@ -6,11 +6,13 @@
 	<title>Discover Boston: with zillow.com</title>
 	<!-- our custom style sheet -->
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	<link rel="stylesheet" type="text/css" href="css/introjs.css"/>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 	<!-- Link to d3 library -->
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+	<script src="js/intro.js"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
   </head>
 
@@ -710,128 +712,76 @@
 			
 		]
 		</textarea>
-      <div class="content">
-        <!--This title is an example only; we can brainstorm a new one.-->
-        <div class="title">Discover Boston: with<span class="subtitle"> <code>zillow.com</code></span></div>
-       	
-		<!-- placeholder for our google map -->
-        <div id="map-canvas"></div>		
-        <div class="largeView">
-            <div class="scatterplot" id="pricePerSqFt"></div>
-            <div class="histogram" id="yAxisHistogram"></div>
-            <div class="histogram" id="xAxisHistogram"></div>
-        </div><br />
-        <div class="dimensions">
-            <div id="houses">
-                Color zipcodes by: 
-				<input onclick="clearPolygons();layPolygons()" id="count" type="radio" name="type" />Number of listings 
-				<input onclick="clearPolygons();layPolygons()" id="average" type="radio" name="type" checked />Average price
-            </div>
-		</div>
-
-		<!-- placeholder for details on demand -->
-        <div id="details"></div>
-		
-		<!-- loads our video presentation -->
-		<div id="presentation"><a href="#" onclick="toggleVideo()">[ PRESENTATION ]</a></div>
-
-		<!-- shows our project presentation -->
-		<div id="description"><a href="#" onclick="toggleDescription()">[ DESCRIPTION ]</a></div>
-		
-		<div id="bar_help"><span>Average Price</span><span style="padding-left:53px;">Average Zestimate</span></div>
-		
-		<div id="auto_manual">
-			<a href="#" onclick="mostExpensive()">MANUAL</a> 
-			<a href="#" onclick="play()">AUTO</a>
-		</div>
-		<div id="story_text"></div>
-		
-		<!-- placeholder for bar chart -->
-        <div id="bar"></div>
-		
-		<!--
-		<div id="common_controls">
-
-			<div id="listingtypes">
-				<input id="forsale" onclick="filter()" type="radio" name="listing_type" checked />For Sale 
-				<input id="sold" onclick="filter()" type="radio" name="listing_type" />Sold
-			</div>	
-
-            <div id="bedrooms">
-                <div>Bedrooms</div>
-                <input type="checkbox" class="bedrooms" onclick="filter()" value="1" checked>1
-                <input type="checkbox" class="bedrooms" onclick="filter()"  value="2" checked>2
-                <input type="checkbox" class="bedrooms" onclick="filter()" value="3" checked>3
-                <input type="checkbox" class="bedrooms" onclick="filter()" value="4" checked>4
-                <input type="checkbox" class="bedrooms" onclick="filter()" value="5+" checked>5+
-            </div>
-
-            <div id="baths">
-                <div>Baths</div>
-                <input type="checkbox" class="baths" onclick="filter()" value="1" checked>1
-                <input type="checkbox" class="baths" onclick="filter()"  value="2" checked>2
-                <input type="checkbox" class="baths" onclick="filter()" value="3" checked>3
-                <input type="checkbox" class="baths" onclick="filter()" value="4" checked>4
-                <input type="checkbox" class="baths" onclick="filter()" value="5+" checked>5+
-            </div>
-
-            <table id="sliders">
-                <tr>
-					<td><label for="amountSqft">Square Footage:</label><input type="text" id="amountSqft" /></td>
-					<td><label for="amountPrice">Price:</label><input type="text" id="amountPrice" /></td>
-					<td class="year"><label for="amountYear">Year:</label><input type="text" id="amountYear" /></td>
-				</tr>
-                
-				<tr>
-					<td><div id="slider-range-sqft" class="slider"></div></td>
-					<td><div id="slider-range-price" class="slider"></div></td>
-					<td class="year"><div id="slider-range-year" class="slider"></div></td>
-				</tr>
-            </table>
-        </div>
-		-->
-		
-		<!-- placeholder for scatterplot -->
-        <div class="barChart" id="pricePerZip"></div>
-       
-	   <div id="controls">
-			<div id="listingtypes">
-				<input id="forsale" onclick="filter()" type="radio" name="listing_type" checked />For Sale 
-				<input id="sold" onclick="filter()" type="radio" name="listing_type" />Sold
-			</div>
-			
+        <div id="wrapper">
+			<div id="controls" data-intro="By using our custom controls, you can dig deeper into the visualization, and tell your own story." data-step="5">
+			<div id="controlsTitle">Filter by:</div>
 			<div id="X" onclick="toggleFilters()">X</div>
+			<div id="listingtypes">
+				<input id="forsale" onclick="filter(2)" type="radio" name="listing_type" checked />For Sale 
+				<input id="sold" onclick="filter(2)" type="radio" name="listing_type" />Sold (2011-2012)
+			</div>
 
 			<div id="bedrooms">
 				<div>Bedrooms</div>
-				<input type="checkbox" class="bedrooms" onclick="filter()" value="1" checked>1<br />
-				<input type="checkbox" class="bedrooms" onclick="filter()"  value="2" checked>2<br />
-				<input type="checkbox" class="bedrooms" onclick="filter()" value="3" checked>3<br />
-				<input type="checkbox" class="bedrooms" onclick="filter()" value="4" checked>4<br />
-				<input type="checkbox" class="bedrooms" onclick="filter()" value="5+" checked>5+<br />
+				<input type="checkbox" class="bedrooms" onclick="filter(1)" value="1" checked>1<br />
+				<input type="checkbox" class="bedrooms" onclick="filter(1)"  value="2" checked>2<br />
+				<input type="checkbox" class="bedrooms" onclick="filter(1)" value="3" checked>3<br />
+				<input type="checkbox" class="bedrooms" onclick="filter(1)" value="4" checked>4<br />
+				<input type="checkbox" class="bedrooms" onclick="filter(1)" value="5+" checked>5+<br />
 			</div>
 			
 			<div id="baths">
 				<div>Baths</div>
-				<input type="checkbox" class="baths" onclick="filter()" value="1" checked>1<br />
-				<input type="checkbox" class="baths" onclick="filter()"  value="2" checked>2<br />
-				<input type="checkbox" class="baths" onclick="filter()" value="3" checked>3<br />
-				<input type="checkbox" class="baths" onclick="filter()" value="4" checked>4<br />
-				<input type="checkbox" class="baths" onclick="filter()" value="5+" checked>5+<br />
+				<input type="checkbox" class="baths" onclick="filter(1)" value="1" checked>1<br />
+				<input type="checkbox" class="baths" onclick="filter(1)"  value="2" checked>2<br />
+				<input type="checkbox" class="baths" onclick="filter(1)" value="3" checked>3<br />
+				<input type="checkbox" class="baths" onclick="filter(1)" value="4" checked>4<br />
+				<input type="checkbox" class="baths" onclick="filter(1)" value="5+" checked>5+<br />
 			</div>
-			
-			<div id="sliders">
-				Square Footage <input type="text" id="amountSqft" />
+			<div id="sliders2">
+				<span>Square Footage: <input type="text" id="amountSqft" /></span>
 				<div id="slider-range-sqft" class="slider"></div>
-				Price <input style="margin-top:30px;" type="text" id="amountPrice" />
+				<span>Price: <input style="margin-top:30px;" type="text" id="amountPrice" /></span>
 				<div id="slider-range-price" class="slider"></div>
 			</div>
-		</div>
-		
-		<div id="filter" onclick="toggleFilters()"><a>FILTER</a></div>
+		 </div>
+		 <div id="content">
+			<!--This title is an example only; we can brainstorm a new one.-->
+			<div class="title">Discover Boston 2013: with<span class="subtitle"> <code>zillow.com</code></span></div>
+			<div class="box">
+				<div id="toggleFilters" onclick="toggleFilters();">Show Filters</div>
+				<div id="discover" onclick="introJs().start();mostExpensive();">Discover Boston</div>
+			</div>
+			<!-- placeholder for the price/sq ft scatterplot --> 
+			<div class="scatterplot" id="pricePerSqFt" data-intro="The high prices of Beacon Hill are also evidenced in the distribution of the home listing prices. Note that if we run a regression line for Beacon Hill, we almost observe a 1:1 correlation between square footage and price." data-step="3"></div>
+			<!-- placeholder for our google map -->
+			<div class="dimensions">
+				<div id="houses">
+					Color by: 
+					<input onclick="clearPolygons();layPolygons()" id="count" type="radio" name="type" />Number of listings 
+					<input onclick="clearPolygons();layPolygons()" id="average" type="radio" name="type" checked />Average price
+				</div>
+			</div>
+			<div id="map-canvas" data-intro="We notice that the most expensive areas are near upper Boston. In particular, Beacon Hill is the most expensive." data-step="1"></div>
+			
+			<!-- loads our video presentation -->
+			<div id="presentation"><a href="#" onclick="toggleVideo()">[ PRESENTATION ]</a></div>
 
-	    <script src="js/main.js"></script>
-    </div>
+			<!-- shows our project presentation -->
+			<div id="description"><a href="#" onclick="toggleDescription()">[ DESCRIPTION ]</a></div>
+			
+			<!-- placeholder for bar chart -->
+			<div id="bar" data-intro="Beacon Hill's average home price is almost $600K more than Boston's!" data-step="2"></div>
+					
+			<!-- placeholder for zip code info -->
+			<div id="details"><div id="detailsBoston"></div><div id="detailsZip"></div><div id="bar_help">[ PLEASE SELECT A ZIP CODE FOR DETAILS ]</div></div>
+
+			<div id="timelineLabel" data-position="top" data-intro="Contrary to popular belief, the activity of home sales has significantly increased over the last 2 years. From our previous example, Beacon Hill shows a relative low activity of home sales." data-step="4"><span style="margin-left:40px">Weekly Number Sold</span>
+			<div id="timeline"></div></div>
+
+			<script src="js/main.js"></script>
+		</div>
+	</div>
 	<div id="mask" onclick="toggleVideo()">
 		<iframe src="http://www.youtube.com/embed/hOifES3byfk"></iframe>
 	</div>
@@ -842,7 +792,7 @@
 		<ol>
 			<li>The Overhead Map, which allows the user to efficiently compare different zip codes' locations and general measures such as number of homes for sale (or sold), as well as average price of those homes. It also allows a user to click a specific zip code bubble for more details (see #3) and to reveal those listings on the scatterplot.</li>
 			<li>The Price-per-SqFt Scatterplot shows all of the listings in the area (filtered by the Controls), and is also linked to the Overhead Map.</li>
-			<li>The Zip Code bar chart appears upon selecting a zip code bubble, and shows the average price, Zestimate price, and max price of the selected zip code to better inform the viewer of the properties of that zip code.</li>
+			<li>The Zip Code Bullet Graph appears upon selecting a zip code bubble, and shows the average price, Zestimate price, and max price of the selected zip code to better inform the viewer of the properties of that zip code.</li>
 			<li>The Controls, which are linked to all of the other views of the visualization.</li>
 		</ol>
 		<h4>Each of these enables the general principles of interactive visualizations:</h4>
