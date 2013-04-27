@@ -35,12 +35,12 @@ body {
     width: 97.2%;
 	padding-left:3%;
     text-align: left;
-    font: 32pt calibri;
+    font: 20pt calibri;
 	margin-top:0px;
 	background-color: #3D6A8E;
 	border-bottom:2px solid darkgray;
-    padding-top: 15px;
-    height: 55px;
+    padding-top: 20px;
+    height: 50px;
     color: white;
 }
 
@@ -50,14 +50,15 @@ body {
     margin-top: 0px;
     margin-bottom: 10px;
     height: 20px;
-    background-color:#DBCCE6;
+    background-color:#C4DEFC;
     border: 2px solid darkgray;
     border-top: none;    
-    font: 14pt arial bold;
+    font: 14pt calibri bold;
     padding:1px;
     z-index:110;
     cursor: pointer;
 	float:left;
+    box-shadow: 4px 4px 2px rgba(100,100,100,0.8);
 }
 
 #toggleFilters {
@@ -68,6 +69,10 @@ body {
 #discover {
 	margin-left:1%;
     width: 200px;
+}
+
+#toggleFilters:hover, #discover:hover {
+	background-color:#FCF4C4;
 }
 
 .box {
@@ -85,7 +90,7 @@ body {
     left:500px;
     top:200px;
     background-color: rgba(220,220,220,0.95);
-	background-color:#DBCCE6;
+	background-color:#C4DEFC;
 	opacity:0.95;
     box-shadow: 10px 10px 5px rgba(100,100,100,0.4);
     display:none;
@@ -99,7 +104,7 @@ body {
 	right:2px;
 	top:9px;
 	font-size:25px;
-	color:red;
+	color:#D15E5E;
 	width:30px;
 	height:30px;
 	cursor:pointer;
@@ -256,16 +261,16 @@ body {
 
 #presentation a,#presentation a:visited,#description a,#description a:visited {
 	text-decoration:none;
-	color:#DBCCE6;
+	color:#C4DEFC;
 }
 
 #presentation a:hover,#description a:hover {
-	color:#DBCCE6;
+	color:#FCF4C4;;
 }
 
 .label {
 	color:black;
-    font-weight:bold;
+	font-size:12pt;
 }
 
 .valueBoston {
@@ -284,14 +289,16 @@ body {
 }
 
 #bar {
-	width:300px;
-    float:right;
-    clear:right;
-	color:lightgray;
-    position:relative;
-    margin-top: 30px;
+    border-bottom: 4px solid black;
+    clear: right;
+    color: lightgray;
+    float: right;
+    height: 222px;
     margin-right: 25px;
-    height:220px;
+    margin-top: 30px;
+    padding-left: 15px;
+    position: relative;
+    width: 300px;
 }
 
 
@@ -303,7 +310,7 @@ body {
 	vertical-align:text-bottom;
 	z-index:0;
 	text-align:center;
-    border: 3px solid black;
+    border: 2px solid black;
 }
 .avg_zestimate {
 	margin-left:151px;
@@ -317,14 +324,14 @@ body {
 	vertical-align:text-bottom;
     z-index:0;
 	text-align:center;
-    border: 3px solid black;
+    border: 2px solid black;
 
 }
 .avg_zip {
-	margin-left:63px;
+	margin-left:62px;
 }
 .avg_zestimate_zip {
-	margin-left:214px;
+	margin-left:212px;
 }
 
 #currentMaxBar {
@@ -340,11 +347,12 @@ body {
 
 code {
 	padding-left:5px;
+	font-size:16pt;
 }
 
 #bar_help {
     color: gray;
-    margin-top: 100px;
+    margin-top: 45px;
     text-align: center;
 }
 
@@ -417,16 +425,33 @@ iframe {
     clear: both;
     font: 16pt arial;
     height: 142px;
+    left: 3%;
     margin-left: auto;
     margin-right: auto;
-    padding: 10px;
-    position: relative;
-    width: 858px;
+    position: absolute;
+    top: 730px;
+    width: 896px;
+	padding-left:30px;
+	padding-top:5px;
+	text-align:center;
+}
+
+#avg_price_lbl,#avg_zest_lbl {
+	position:absolute;
+	top:695px;
+}
+
+#avg_price_lbl {
+	left:68%;
+}
+
+#avg_zest_lbl {
+	left:83%;
 }
 
 #timeline {
     position:absolute;
-    left: 10px;
+    left: 30px;
     top: 107px;
     width: 843px;
 }
@@ -451,7 +476,12 @@ iframe {
     position:absolute;
     border-left: 1px solid black;
     padding-top: 5px;
-    font: 14pt calibri;
+    font: 10pt calibri;
+}
+
+#histo_title {
+	margin-left:40px;
+	font-size:12pt;
 }
 
 .zipdiv {

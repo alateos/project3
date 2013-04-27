@@ -714,7 +714,7 @@
 		</textarea>
         <div id="wrapper">
 			<div id="controls" data-intro="By using our custom controls, you can dig deeper into the visualization, and tell your own story." data-step="5">
-			<div id="controlsTitle">Filter by:</div>
+			<div id="controlsTitle">Filter by</div>
 			<div id="X" onclick="toggleFilters();introJs().exit()">X</div>
 			<div id="listingtypes">
 				<input id="forsale" onclick="filter(2)" type="radio" name="listing_type" checked />For Sale 
@@ -747,13 +747,13 @@
 		 </div>
 		 <div id="content">
 			<!--This title is an example only; we can brainstorm a new one.-->
-			<div class="title">Discover Boston 2013: with<span class="subtitle"> <code>zillow.com</code></span></div>
+			<div class="title">Discover Boston 2013 with<span class="subtitle"> <code>zillow.com</code></span></div>
 			<div class="box">
-				<div id="toggleFilters" onclick="toggleFilters();">Show Filters</div>
-				<div id="discover" onclick="introJs().start();mostExpensive();">Discover Boston</div>
+				<div id="toggleFilters" onclick="toggleFilters();">FILTER</div>
+				<div id="discover" onclick="introJs().start();mostExpensive();">DISCOVER</div>
 			</div>
 			<!-- placeholder for the price/sq ft scatterplot --> 
-			<div class="scatterplot" id="pricePerSqFt" data-intro="The high prices of Beacon Hill are also evidenced in the distribution of the home listing prices. Note that if we run a regression line for Beacon Hill, we almost observe a 1:1 correlation between square footage and price." data-step="3"></div>
+			<div class="scatterplot" id="pricePerSqFt" data-intro="The high prices of Beacon Hill are also evidenced in the distribution of the home listing prices. South End, however, has a far lower price per square foot than Beacon Hill - and, there are many more homes there available that are greater than 1000 sq ft." data-step="3"></div>
 			<!-- placeholder for our google map -->
 			<div class="dimensions">
 				<div id="houses">
@@ -762,22 +762,26 @@
 					<input onclick="clearPolygons();layPolygons()" id="average" type="radio" name="type" checked />Average price
 				</div>
 			</div>
-			<div id="map-canvas" data-intro="We notice that the most expensive areas are near upper Boston. In particular, Beacon Hill is the most expensive." data-step="1"></div>
+			<div id="map-canvas" data-intro="We notice that the most expensive areas are near upper Boston. In particular, Beacon Hill is the most expensive. If we switch to see the number of listings, we find that South End has the highest number of listings for sale at present." data-step="1"></div>
 			
 			<!-- loads our video presentation -->
 			<div id="presentation"><a href="#" onclick="toggleVideo()">[ PRESENTATION ]</a></div>
 
 			<!-- shows our project presentation -->
 			<div id="description"><a href="#" onclick="toggleDescription()">[ DESCRIPTION ]</a></div>
-			
+		
 			<!-- placeholder for bar chart -->
-			<div id="bar" data-intro="Beacon Hill's average home price is almost $600K more than Boston's!" data-step="2"></div>
+			<div id="bar" data-intro="Beacon Hill's average home price is almost $600K more than Boston's! For South Boston, the average price is just over half that of the average Boston price, even though it is near downtown and right near the water." data-step="2"></div>
+					
+			<span id="avg_price_lbl">Average Price</span><span id="avg_zest_lbl">Average Zestimate</span>
 					
 			<!-- placeholder for zip code info -->
 			<div id="details"><div id="detailsBoston"></div><div id="detailsZip"></div><div id="bar_help">[ PLEASE SELECT A ZIP CODE FOR DETAILS ]</div></div>
 
-			<div id="timelineLabel" data-position="top" data-intro="Contrary to popular belief, the activity of home sales has significantly increased over the last 2 years. From our previous example, Beacon Hill shows a relative low activity of home sales." data-step="4"><span style="margin-left:40px">Weekly Number Sold</span>
-			<div id="timeline"></div></div>
+			<div id="timelineLabel" data-position="top" data-intro="Contrary to popular belief, the activity of home sales has significantly increased over the last 2 years. From our previous example, Beacon Hill shows a relative low activity of home sales. South Boston is picking up in popularity. Sales have picked up just within the past year or so." data-step="4">
+				<span id="histo_title">Number of homes sold (weekly)</span>
+				<div id="timeline"></div>
+			</div>
 
 			<script src="js/main.js"></script>
 		</div>

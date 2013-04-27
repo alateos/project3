@@ -42,10 +42,10 @@ $(function() {
 
 function toggleFilters() {
 	$("#controls").toggle();
-    if (d3.select("#toggleFilters").html() != "Hide Filters") {
-        $("#toggleFilters").html("Hide Filters");
+    if (d3.select("#toggleFilters").html() != "HIDE Filters") {
+        $("#toggleFilters").html("HIDE Filters");
     } else {
-        $("#toggleFilters").html("Show Filters");
+        $("#toggleFilters").html("FILTER");
     }
 }
 
@@ -221,6 +221,7 @@ function layPolygons() {
 */
 function selectZipArea(zipArea,zip) {
 	return function() {
+		$("#bar_help").html("");
 		for(var i in polygons) {
 			// remove all polygons off the map, reset their color to red, then lay them back on map
 			polygons[i].setMap(null);
@@ -744,7 +745,7 @@ function createPricePerSqFtScatterplot(data_in) {
         var downscalex;
 
 		svg.append("g")
-              .attr("class", "x axis")
+              .attr("class", "x_axis")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis)
             .append("text")
@@ -752,7 +753,7 @@ function createPricePerSqFtScatterplot(data_in) {
               .attr("x", 100)
               .text("Square Footage (Sq Ft)");
         svg.append("g")
-              .attr("class", "y axis")
+              .attr("class", "y_axis")
               .call(yAxis)
             .append("text")
               .attr("transform", "rotate(-90)")

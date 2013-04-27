@@ -143,7 +143,7 @@
 	if(this._currentStep == 4) {
 		$("#controls").toggle();
 		$("#controls").css("z-index",99999998);
-        $("#toggleFilters").html("Hide Filters");
+        $("#toggleFilters").html("HIDE Filters");
 	}
 	
     _showElement.call(this, this._introItems[this._currentStep].element);
