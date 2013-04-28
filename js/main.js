@@ -292,8 +292,13 @@ function getDetails(zip) {
 		var num_listings = text + "<br />" + "<span class='label'>Number of listings:</span> " + "<span class='value'>" + counts[zip] + "</span>";
 		return num_listings;
 	} else if (document.getElementById("average").checked) {
-		var average = text + "<br /><span class='label'>" + "Average price:</span> " + "<span class='value'>$" + withCommas(parseInt(prices[zip]/counts[zip])) + "</span>";
-		return average;
+		if(!(isNaN(parseInt(prices[zip]/counts[zip])))) {
+			var average = text + "<br /><span class='label'>" + "Average price:</span> " + "<span class='value'>$" + withCommas(parseInt(prices[zip]/counts[zip])) + "</span>";
+			return average;
+		} else {
+			var average = text + "<br /><span class='label'>" + "Average price:</span> " + "<span class='value'>" + "Not available" + "</span>";
+			return average;
+		}
 	} else if (document.getElementById("max").checked) {
 		var maximum = text + "<br /><span class='label'>" + "Maximum price:</span> " + "<span class='value'>$" + withCommas(maxes[zip]) + "</span>";
 		return maximum;
