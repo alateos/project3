@@ -8,15 +8,17 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>
 	<link rel="stylesheet" type="text/css" href="css/introjs.css"/>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
-	<!-- Link to d3 library -->
+	<!-- link to d3 library -->
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+	<!-- link to the presentation library that we used for storytelling -->
 	<script src="js/intro.js"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
   </head>
 
   <body onload="initialize()">
+	  <!-- text area holds each zip code's path lng/lat coordinates in json format -->
       <textarea id="zips" class="invisible">
         {"values":[
         {"zip":"2108","lat":42.357796,"lng":"-71.062674","name":"Beacon Hill"},
@@ -762,9 +764,19 @@
 					<input onclick="clearPolygons();layPolygons()" id="average" type="radio" name="type" checked />Average price
 				</div>
 			</div>
+			<!-- container for our google map -->
 			<div id="map-canvas" data-intro="We notice that the most expensive areas are near upper Boston. In particular, Beacon Hill is the most expensive. If we switch to see the number of listings, we find that South End has the highest number of listings for sale at present." data-step="1"></div>
 			
-			<!-- loads our video presentation -->
+			<!-- container for our legend -->
+			<div id="legend">
+				<span class="square" id="l1"></span><span class="legend_value" id="v1">$0 - $250,000</span>
+				<span class="square" id="l2"></span><span class="legend_value" id="v2">$250,000 - $500,000</span>
+				<span class="square" id="l3"></span><span class="legend_value" id="v3">$500,000 - $1,000,000</span>
+				<span class="square" id="l4"></span><span class="legend_value" id="v4">$1,000,000 - $3,000,000</span>
+				<span class="square" id="l5"></span><span class="legend_value" id="v5">More than $3,000,000</span>
+			</div>
+			
+			<!-- container for our video presentation -->
 			<div id="presentation"><a href="#" onclick="toggleVideo()">[ PRESENTATION ]</a></div>
 
 			<!-- shows our project presentation -->
@@ -778,11 +790,13 @@
 			<!-- placeholder for zip code info -->
 			<div id="details"><div id="detailsBoston"></div><div id="detailsZip"></div><div id="bar_help">[ PLEASE SELECT A ZIP CODE FOR DETAILS ]</div></div>
 
+			<!-- container for our timeline histogram -->
 			<div id="timelineLabel" data-position="top" data-intro="Contrary to popular belief, the activity of home sales has significantly increased over the last 2 years. From our previous example, Beacon Hill shows a relative low activity of home sales. South Boston is picking up in popularity. Sales have picked up just within the past year or so." data-step="4">
 				<span id="histo_title">Number of homes sold (weekly)</span>
 				<div id="timeline"></div>
 			</div>
 
+			<!-- our own javascript file -->
 			<script src="js/main.js"></script>
 		</div>
 	</div>
@@ -790,22 +804,22 @@
 		<iframe src="http://www.youtube.com/embed/hOifES3byfk"></iframe>
 	</div>
 	<div id="description_mask" onclick="toggleDescription()">
-	<div id="project_desc">
-		<h3>Discover Boston was designed and built by Alain Ibrahim and Mike Schaffner</h3>
-		<h4>The four main parts of this dashboard-style visualization are:</h4>
-		<ol>
-			<li>The Overhead Map, which allows the user to efficiently compare different zip codes' locations and general measures such as number of homes for sale (or sold), as well as average price of those homes. It also allows a user to click a specific zip code bubble for more details (see #3) and to reveal those listings on the scatterplot.</li>
-			<li>The Price-per-SqFt Scatterplot shows all of the listings in the area (filtered by the Controls), and is also linked to the Overhead Map.</li>
-			<li>The Zip Code Bullet Graph appears upon selecting a zip code bubble, and shows the average price, Zestimate price, and max price of the selected zip code to better inform the viewer of the properties of that zip code.</li>
-			<li>The Controls, which are linked to all of the other views of the visualization.</li>
-		</ol>
-		<h4>Each of these enables the general principles of interactive visualizations:</h4>
-		<ol>
-			<li>Overhead View First</li> 
-			<li>Zoom and Filter</li>
-			<li>Details on Demand</li>
-		</ol> 
-</div>
+		<div id="project_desc">
+			<h3>Discover Boston was designed and built by Alain Ibrahim and Mike Schaffner</h3>
+			<h4>The four main parts of this dashboard-style visualization are:</h4>
+			<ol>
+				<li>The Overhead Map, which allows the user to efficiently compare different zip codes' locations and general measures such as number of homes for sale (or sold), as well as average price of those homes. It also allows a user to click a specific zip code bubble for more details (see #3) and to reveal those listings on the scatterplot.</li>
+				<li>The Price-per-SqFt Scatterplot shows all of the listings in the area (filtered by the Controls), and is also linked to the Overhead Map.</li>
+				<li>The Zip Code Bullet Graph appears upon selecting a zip code bubble, and shows the average price, Zestimate price, and max price of the selected zip code to better inform the viewer of the properties of that zip code.</li>
+				<li>The Controls, which are linked to all of the other views of the visualization.</li>
+			</ol>
+			<h4>Each of these enables the general principles of interactive visualizations:</h4>
+			<ol>
+				<li>Overhead View First</li> 
+				<li>Zoom and Filter</li>
+				<li>Details on Demand</li>
+			</ol> 
+		</div>
 	</div>
   </body>
 </html>

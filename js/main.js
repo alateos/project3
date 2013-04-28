@@ -36,10 +36,12 @@ var colors = new Array();
 // tracks polygon colors
 var polygon_colors = new Array();
 
+// renders the filter controls div to be draggable
 $(function() {
     $( "#controls" ).draggable();
 });
 
+/** toggles between showing and hiding the filter controls */
 function toggleFilters() {
 	$("#controls").toggle();
     if (d3.select("#toggleFilters").html() != "HIDE Filters") {
@@ -126,7 +128,6 @@ function filter(changeChart) {
 		} else if(sold.checked == true){
 		selected_array = data_sold;
 	}
-
     
 	// populate bedrooms array
 	for(var i in checkboxes) {
@@ -153,8 +154,7 @@ function filter(changeChart) {
     // otherwise, just filter the data
     if (changeChart==1) {
         updateChartData(selected_array);
-    }
-    else if (changeChart==2) {
+    } else if (changeChart==2) {
         // recreate scatterplot
         createPricePerSqFtScatterplot(selected_array);
         updateChartData(selected_array);
@@ -162,7 +162,6 @@ function filter(changeChart) {
     
     // now create the sales history frequency chart/timeline
     createTimeline(currentZip);
-    
 	
     if (changeChart==2) {
         // clear out details on demand div
@@ -187,7 +186,6 @@ function clearBarChart() {
 
 /** draws the polygons onto the google map */
 function layPolygons() {
-
 	for (var i in zips_coords) {
 			// zip area polygon coordinates
 			var zipCoords = getZipPolygonCoords(zips_coords[i].zip);
@@ -201,7 +199,8 @@ function layPolygons() {
 				fillColor: getFillColor(zips_coords[i].zip),
 				fillOpacity: 0.6
 			  });
-			  
+			
+			// set the zip's polygon onto the map
 			zipArea.setMap(map);
 			
 			// add an event listener to each zip area
@@ -212,6 +211,17 @@ function layPolygons() {
 			
 			// add polygon colors
 			polygon_colors.push(zipArea.fillColor);
+	}
+	
+	var legend_content = "";
+	
+	// fill the legend area depending on user's choice of average price or number of listings
+	if(document.getElementById("average").checked) {
+		legend_content = "<span class='square' id='l1'></span><span class='legend_value' id='v1'>$0 - $250,000</span><span class='square' id='l2'></span><span class='legend_value' id='v2'>$250,000 - $500,000</span><span class='square' id='l3'></span><span class='legend_value' id='v3'>$500,000 - $1,000,000</span><span class='square' id='l4'></span><span class='legend_value' id='v4'>$1,000,000 - $3,000,000</span><span class='square' id='l5'></span><span class='legend_value' id='v5'>More than $3,000,000</span>";
+		$("#legend").html(legend_content);		
+	} else if(document.getElementById("count").checked) {
+		legend_content = "<span class='square' id='l1'></span><span class='legend_value' id='v1'>0-50 listings</span><span class='square' id='l2'></span><span class='legend_value' id='v2'>50-100 listings</span><span class='square' id='l3'></span><span class='legend_value' id='v3'>100-200 listings</span><span class='square' id='l4'></span><span class='legend_value' id='v4'>200-300 listings</span><span class='square' id='l5'></span><span class='legend_value' id='v5'>More than 300 listings</span>";
+		$("#legend").html(legend_content);	
 	}
 }
 
@@ -244,7 +254,7 @@ function selectZipArea(zipArea,zip) {
 		// create bars
 		barChart(zip);
 
-		//PASS THE ZIP CODE TO SCATTER PLOT BELOW
+		// pass the zip code to the scatterplot
 		updateChartZip(zip);
         
         // recreate the sales history frequency chart
@@ -293,8 +303,9 @@ function getDetails(zip) {
 	}
 }
 
-/** returns the fill color based on the home price */
+/** returns the fill color based on the home price. here, we created 5 levels of graduation. */
 function getFillColor(zip) {
+	// if the radio button for number of listings is checked, return the appropriate color for given zip
 	if(document.getElementById("count").checked) {
 		var num_listings = counts[zip];
 		if(num_listings > 0 && num_listings <= 50) {
@@ -310,7 +321,10 @@ function getFillColor(zip) {
 		} else {
 			return "transparent";
 		}
-	} else if (document.getElementById("average").checked) {
+		
+	} 
+	// if the radio button for price average is checked, return the appropriate color for given zip
+	else if (document.getElementById("average").checked) {
 		var average = ((prices[zip]/counts[zip]));
 		if(average > 0 && average <= 250000) {
 			return colors[0];
@@ -330,6 +344,7 @@ function getFillColor(zip) {
 
 /** clears all the polygons off the map */
 function clearPolygons() {
+	$("#legend").html("");
 	for(var polygon in polygons) {
 		// remove polygon off map
 		polygons[polygon].setMap(null);
@@ -342,48 +357,13 @@ function clearPolygons() {
 
 /** loads all of our content from 2 csv files */
 function initialize() {
-
-/* GRAY
-    colors.push("#EEEEEE");
-    colors.push("#CCCCCC");
-    colors.push("#AAAAAA");
-    colors.push("#777777");
-    colors.push("#444444");
-
-/* PURPLE
-    colors.push("#BCBDDC");
-    colors.push("#9E9AC8");
-    colors.push("#807DBA");
-    colors.push("#6A51A3");
-    colors.push("#4A1486");
-
-/* GREEN */
+	// load our colors array with the 5 different levels per colorbrew2.org
     colors.push("#F5F5F5");
     colors.push("#C7EAE5");
     colors.push("#80CDC1");
     colors.push("#35978F");
     colors.push("#01665E");
 
-/* BLUE 
-    colors.push("#9ECAE1");
-    colors.push("#6BAED6");
-    colors.push("#4292C6");
-    colors.push("#2171B5");
-    colors.push("#004090");
-    
-/*  ORANGE 
-	colors.push("#FEE391");
-	colors.push("#FEC44F");
-	colors.push("#FE9929");
-	colors.push("#CC4C02");
-	colors.push("#8C2D04");
-/*  PINKISH
-    colors.push("#FEEBE2");
-	colors.push("#FBB4B9");
-	colors.push("#F768A1");
-	colors.push("#C51B8A");
-	colors.push("#7A0177");
-*/
 	d3.csv("data/boston_for_sale.csv", function(d) {
 		// populate "homes for sale" array
 		data_for_sale = d;
@@ -391,12 +371,12 @@ function initialize() {
         // create initial scatterplot
         createPricePerSqFtScatterplot(data_for_sale);
 		
+		// initialize bar chart for the for sale listings, by default
         initBarChart(data_for_sale);
 	});
 
 	
     d3.csv("data/boston_sold.csv", function(d) {
-
         // get the dates of sale into a format that Javascript date object recognizes 
         d.forEach(function(d) {
             tempArray = d.dateofsale.split("/");
@@ -517,8 +497,8 @@ function loadBuckets(d,beds,baths,min_sqft,max_sqft,min_year,max_year,min_price,
 	}
 }
 
+/** initializes all items related to the bar chart */
 function initBarChart() {
-
     $("#bar").html("");
 	selected = "";    
     if (document.getElementById("forsale").checked == true) {
@@ -537,6 +517,7 @@ function initBarChart() {
 	currentMaxBarHeight = d3.max([avg_actual_all,avg_zestimate_all]);
     var scale =	d3.scale.linear().domain([0,currentMaxBarHeight]).range([0,210]);
     
+	// produces the bar that pertains to the average price for boston
     var bars = d3.select("#bar").selectAll("div").data([scale(avg_actual_all)]);
     bars.enter().append("div")
         .attr("class","avg_boston")
@@ -546,7 +527,8 @@ function initBarChart() {
             .style("top",function(d) {return parseInt(220-d)+"px"})
             .attr("onmousemove",function(d) {return "tooltip.show('Average Price (Boston):<br/> $" + withCommas(avg_actual_all)+"');"})
             .attr("onmouseout","tooltip.hide();");
-			
+	
+	// produces the bar that pertains to the zestimate average for boston
     d3.select("#bar").data([scale(avg_zestimate_all)]).append("div")
         .attr("class","avg_zestimate")
 		.style("top","223px")
@@ -571,7 +553,6 @@ function initBarChart() {
 
 /** creates a bar chart of actual versus project price based on selected zip code */
 function barChart(zip) {
-
 	// clear bart chart
 	$("#bar").html("");
 	selected = "";
@@ -581,17 +562,12 @@ function barChart(zip) {
 	} else if (document.getElementById("sold").checked == true) {
 		selected = "sold";
 	}
-	
 
 	// scale actual price amount
 	price = parseInt(parseInt(prices[zip])/parseInt(counts[zip]));
 
 	// scale zestimate amount
 	zestimate = parseInt(parseInt(zestimates[zip])/parseInt(counts[zip]));
-	// price data array to be passed to d3
-	//price = [price];
-	// zestimate data array to be passed to d3
-	//zestimate = [zestimate];
 	
 	// average actual price for boston
 	avg_actual_all = getForSaleStats(selected)[1];
@@ -603,6 +579,7 @@ function barChart(zip) {
 	currentMaxBarHeight = d3.max([price,zestimate,avg_actual_all,avg_zestimate_all]);
     var scale =	d3.scale.linear().domain([0,currentMaxBarHeight]).range([0,210]);	
     
+	// produces the bar that pertains to the average price for boston
     d3.select("#bar").selectAll("div").data([scale(avg_actual_all)]).enter().append("div")
         .attr("class","avg_boston")
 		.style("top","223px")
@@ -611,7 +588,8 @@ function barChart(zip) {
             .style("top",function(d) {return parseInt(220-d)+"px"})
             .attr("onmousemove",function(d) {return "tooltip.show('Average Price (Boston):<br/> $" + withCommas(avg_actual_all)+"');"})
             .attr("onmouseout","tooltip.hide();");
-			
+	
+	// produces the bar that pertains to the average price for selected zip
     d3.select("#bar").data([scale(price)]).append("div")
         .attr("class","avg_zip")
 		.style("top","223px")
@@ -620,7 +598,8 @@ function barChart(zip) {
             .style("top",function(d) {return parseInt(220-d)+"px"})
             .attr("onmousemove",function(d) {return "tooltip.show('Average Price (0" + zip + "):<br/> $" + withCommas(price)+"');"})
             .attr("onmouseout","tooltip.hide();");
-			
+	
+	// produces the bar that pertains to the zestimate average for boston
     d3.select("#bar").data([scale(avg_zestimate_all)]).append("div")
         .attr("class","avg_zestimate")
 		.style("top","223px")
@@ -630,6 +609,7 @@ function barChart(zip) {
             .attr("onmousemove",function(d) {return "tooltip.show('Average Zestimate (Boston):<br/> $" + withCommas(avg_zestimate_all)+"');"})
             .attr("onmouseout","tooltip.hide();");
 			
+	// produces the bar that pertains to the zestimate average for selected zip
     d3.select("#bar").data([scale(zestimate)]).append("div")
         .attr("class","avg_zestimate_zip")
 		.style("top","223px")
@@ -638,8 +618,6 @@ function barChart(zip) {
             .style("top",function(d) {return parseInt(220-d)+"px"})
             .attr("onmousemove",function(d) {return "tooltip.show('Average Zestimate (0" + zip + "):<br/> $" + withCommas(zestimate)+"');"})
             .attr("onmouseout","tooltip.hide();");
-	
-    //d3.select("#bar_help").text("");
     
     currentMaxBar = d3.select("#bar")
         .append("div");
@@ -652,9 +630,6 @@ function barChart(zip) {
                 .style("opacity","0.6")
                 .style("background","white")
                 .text("$" + withCommas(scale.domain()[1]));
-                
-	// show bar labels
-	//$("#bar_help").show();
 }
 
 /** returns an array of max, actual average, and zestimate for the listings of boston */
@@ -667,14 +642,17 @@ function getForSaleStats(type) {
 	var selected = "";
 	var stats = new Array();
 	
+	// point our selected array to the user's choice
 	if (type == "for_sale") {
 		selected = data_for_sale; 
 	} else if (type == "sold") {
 		selected = data_sold;
 	}
 
+	// get length of selected array
 	var count = selected.length;
     
+	// calculate the max, price average, and zestimate average figures
 	for (var i in selected) {
 		if(parseInt(selected[i].price) >= max) {
 			max = parseInt(selected[i].price);
@@ -686,6 +664,7 @@ function getForSaleStats(type) {
 	average_price = parseInt(price_sum/count);
 	average_zestimate = parseInt(zestimate_sum/count);
 	
+	// push the resulting figures to our stats array
 	stats.push(max);
 	stats.push(average_price);
 	stats.push(average_zestimate);
@@ -775,10 +754,10 @@ function createPricePerSqFtScatterplot(data_in) {
             })
 			// radius of the circles
             .attr("r","4")
-            .attr("fill-opacity","0.4")
+            .attr("fill-opacity","1")
 			// fill color of the circles
             .attr("stroke","#01665E")
-            .attr("fill","#80CDC1");
+            .attr("fill","blue");
 }
 
 function updateChartScale(dataIn) {
@@ -802,7 +781,6 @@ function updateChartScale(dataIn) {
 
 /** updates the chart given a selected data */
 function updateChartData(dataIn) {
-
     var minSqFt = parseInt($("#slider-range-sqft").slider("values",0));
     var maxSqFt = parseInt($("#slider-range-sqft").slider("values",1));
     var minPrice = parseInt($("#slider-range-price").slider("values",0));
@@ -840,7 +818,7 @@ function updateChartData(dataIn) {
         .range([0,240]);
     
    var svg = d3.select("body").select("#pricePerSqFt").selectAll("circle")
-        .data(dataIn).each(function(d) {
+        .each(function(d) {
         d3.select(this)
         .transition().duration(1000)
         //tooltip code from: sixrevisions.com 
@@ -860,7 +838,6 @@ function updateChartData(dataIn) {
 
 /** applies style to scatterplot circles that pertain to selected zip code */
 function updateChartZip(zip) {
-    
    var svgPlot = d3.select("body").select("#pricePerSqFt").selectAll("circle")
     .each(function(d) {
         if (d.zip == zip) {
@@ -874,8 +851,8 @@ function updateChartZip(zip) {
         }
         else {
             d3.select(this)
-            .attr("stroke","#01665E")
-            .attr("fill","#80CDC1")            
+            .attr("stroke","lightblue")
+            .attr("fill","blue")            
             .attr("fill-opacity","0.2")
             .attr("stroke-opacity","0.5")
             .transition().duration()
@@ -884,6 +861,7 @@ function updateChartZip(zip) {
     });
 }
 
+/** creates timeline per given zip code */
 function createTimeline(zipcode) {
     // first get all filtering from the controls
     var minSqFt = parseInt($("#slider-range-sqft").slider("values",0));
@@ -922,17 +900,15 @@ function createTimeline(zipcode) {
     var filteredZipSoldListings = [];
     
     data_sold.forEach(function(d) {
-            if (d.price > minPrice && d.price < maxPrice && d.sqft > minSqFt && d.sqft < maxSqFt && bedrooms.indexOf(String(d.beds))>=0 && baths.indexOf(String(d.baths))>=0)
-            { 
+            if (d.price > minPrice && d.price < maxPrice && d.sqft > minSqFt && d.sqft < maxSqFt && bedrooms.indexOf(String(d.beds))>=0 && baths.indexOf(String(d.baths))>=0) { 
                 filteredSoldListings[i] = d;
                 i++;
             }
             // prepare the zip histogram (if no zip, it will consist of all 0's)
-            if (d.price > minPrice && d.price < maxPrice && d.sqft > minSqFt && d.sqft < maxSqFt && bedrooms.indexOf(String(d.beds))>=0 && baths.indexOf(String(d.baths))>=0 && d.zip == zipcode)
-                { 
-                    filteredZipSoldListings[j] = d;
-                    j++;
-                }            
+            if (d.price > minPrice && d.price < maxPrice && d.sqft > minSqFt && d.sqft < maxSqFt && bedrooms.indexOf(String(d.beds))>=0 && baths.indexOf(String(d.baths))>=0 && d.zip == zipcode) { 
+				filteredZipSoldListings[j] = d;
+				j++;
+            }             
     });
     
     // initialize our range of dates, scales, and define that we want weeks 
@@ -1165,23 +1141,6 @@ function toggleVideo() {
 function toggleDescription() {
 	$('#description_mask').toggle();
 }
-
-/* toggle controls 
-function toggleControls() {
-    if (document.getElementById('toggleControls').innerHTML=="&lt;") {
-        d3.select("#controls")
-            .transition().duration(500)
-                .style("left","600px");
-        document.getElementById('toggleControls').innerHTML="&gt;";
-    }
-    else {
-        d3.select("#controls")
-            .transition().duration(500)
-                .style("left","915px");
-        document.getElementById('toggleControls').innerHTML="&lt;";
-    }
-}*/
-
 
 /** initializes square foot slider. range is chosen arbitrarily */
 $(function() {
