@@ -160,6 +160,11 @@ function filter(changeChart) {
     // otherwise, just filter the data
     if (changeChart==1) {
         updateChartData(selected_array);
+		// if we have a google map redraw polygons
+		if(map) {
+			clearPolygons();
+			layPolygons();
+		}
     } else if (changeChart==2) {
         // recreate scatterplot
         createPricePerSqFtScatterplot(selected_array);
