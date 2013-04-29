@@ -179,6 +179,7 @@ function filter(changeChart) {
 		initBarChart();
 		clearPolygons();
 		layPolygons();
+		currentZip = 0;
 		createTimeline();
     }
 }
