@@ -146,6 +146,10 @@
         $("#toggleFilters").html("HIDE Filters");
 	}
 	
+	if(this._currentStep == 1) {
+		$("#legend").css("z-index","1");
+	}
+	
     _showElement.call(this, this._introItems[this._currentStep].element);
   }
 

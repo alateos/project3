@@ -44,7 +44,7 @@ body {
     background-color:#C4DEFC;
     border: 2px solid darkgray;
     border-top: none;    
-    font: 14pt calibri bold;
+    font: "14pt calibri bold";
     padding:1px;
     z-index:110;
     cursor: pointer;
@@ -87,6 +87,7 @@ body {
     display:none;
     z-index:150;
 	cursor:move;
+    z-index: 2147483648;
 }
 
 #X {
@@ -180,13 +181,13 @@ body {
 .dimensions {
     height:42px;
     width: 35%;
-    background-color: #EBEBE1;
+    background-color: #CFCFCF;
 	float:left;
 	margin-left:30px;
 	padding-top:5px;
 	padding-bottom:5px;
 	text-align:center;
-	border:1px solid black;
+	border:4px solid #CFCFCE;
 }
 
 @media screen and (min-width:1600px) {
@@ -203,7 +204,7 @@ body {
 	height:500px; 
 	margin-left:30px;
 	margin-top:-1px;
-    border: 1px solid black;
+    border: 4px solid #CFCFCF;
 }
 
 .invisible {
@@ -218,7 +219,7 @@ body {
     margin-top:40px;
     margin-bottom: 20px;
     height: 210px;
-    width: 250px;
+    width: 244px;
 }
 
 #detailsZip {
@@ -264,7 +265,7 @@ body {
 }
 
 .valueBoston {
-    color: blue;
+    color: #BFBFBF;
     font-weight: bold;
 }
 
@@ -283,7 +284,7 @@ body {
     clear: right;
     color: lightgray;
     float: right;
-    height: 219px;
+    height: 220px;
     margin-right: 25px;
     margin-top: 30px;
     padding-left: 15px;
@@ -294,12 +295,13 @@ body {
 
 .avg_boston, .avg_zestimate {
 	width:60px;
-	background-color:blue;
+	background-color:#BFBFBF;
 	position:absolute;
 	color:gray;
 	vertical-align:text-bottom;
 	z-index:0;
 	text-align:center;
+	border:1px solid black;
 }
 .avg_zestimate {
 	margin-left:150px;
@@ -313,6 +315,7 @@ body {
 	vertical-align:text-bottom;
     z-index:0;
 	text-align:center;
+	border:1px solid black;
 }
 .avg_zip {
 	margin-left:60px;
@@ -407,14 +410,18 @@ iframe {
 }
 
 #legend {
-	position:absolute;
-	height:25px;
-	width:915px;
-	top:720px;
-	border: 1px solid gray;
-	padding-left:10px;
-	padding-top: 10px;
-	margin-left:30px;
+    background-color: white;
+    border: 1px solid black;
+    height: 97px;
+    left: 243px;
+    margin-left: 30px;
+    padding-left: 10px;
+    padding-top: 10px;
+    position: absolute;
+    top: 555px;
+    width: 92px;
+    z-index: 1;
+	text-align:right;
 }
 
 #l1 {
@@ -438,16 +445,16 @@ iframe {
 }
 
 .square {
-	width:20px;
-	height:20px;
-	margin-left:10px;
+	width:13px;
+	height:13px;
 	display:block;
 	float:left;
 }
 
 .legend_value {
 	float:left;
-	margin-left:3px;
+	margin-left:5px;
+	font-size:12px;
 }
 
 #timelineLabel {
@@ -498,7 +505,7 @@ iframe {
 
 .histDiv {
     position: absolute;
-    background: blue;
+    background: #BABABA;
     border:1px solid white;
     z-index:101;
 }
@@ -522,5 +529,5 @@ iframe {
 }
 
 #divHover {
-    background: lightblue;
+    background: #BFBFBF;
 }

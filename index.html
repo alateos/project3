@@ -3,7 +3,7 @@
   <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/png" href="img/favicon.ico">
-	<title>Discover Boston: with zillow.com</title>
+	<title>Discover Boston 2013 with zillow.com</title>
 	<!-- our custom style sheet -->
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>
 	<link rel="stylesheet" type="text/css" href="css/introjs.css"/>
@@ -752,7 +752,7 @@
 			<div class="title">Discover Boston 2013 with<span class="subtitle"> <code>zillow.com</code></span></div>
 			<div class="box">
 				<div id="toggleFilters" onclick="toggleFilters();">FILTER</div>
-				<div id="discover" onclick="introJs().start();mostExpensive();">DISCOVER</div>
+				<div id="discover" onclick="introJs().start();$('#controls').hide();mostExpensive();">DISCOVER</div>
 			</div>
 			<!-- placeholder for the price/sq ft scatterplot --> 
 			<div class="scatterplot" id="pricePerSqFt" data-intro="The high prices of Beacon Hill are also evidenced in the distribution of the home listing prices. South End, however, has a far lower price per square foot than Beacon Hill - and, there are many more homes there available that are greater than 1000 sq ft." data-step="3"></div>
@@ -760,8 +760,8 @@
 			<div class="dimensions">
 				<div id="houses">
 					Color by: 
-					<input onclick="clearPolygons();layPolygons()" id="count" type="radio" name="type" />Number of listings 
-					<input onclick="clearPolygons();layPolygons()" id="average" type="radio" name="type" checked />Average price
+					<input onclick="filter(2)" id="count" type="radio" name="type" />Number of listings 
+					<input onclick="filter(2)" id="average" type="radio" name="type" checked />Average price
 				</div>
 			</div>
 			<!-- container for our google map -->
@@ -769,11 +769,11 @@
 			
 			<!-- container for our legend -->
 			<div id="legend">
-				<span class="square" id="l1"></span><span class="legend_value" id="v1">$0 - $250,000</span>
-				<span class="square" id="l2"></span><span class="legend_value" id="v2">$250,000 - $500,000</span>
-				<span class="square" id="l3"></span><span class="legend_value" id="v3">$500,000 - $1,000,000</span>
-				<span class="square" id="l4"></span><span class="legend_value" id="v4">$1,000,000 - $3,000,000</span>
-				<span class="square" id="l5"></span><span class="legend_value" id="v5">More than $3,000,000</span>
+				<span class="square" id="l1"></span><span class="legend_value" id="v1">$250,000</span><br />
+				<span class="square" id="l2"></span><span class="legend_value" id="v2">$500,000</span><br />
+				<span class="square" id="l3"></span><span class="legend_value" id="v3">$1,000,000</span><br />
+				<span class="square" id="l4"></span><span class="legend_value" id="v4">$3,000,000</span><br />
+				<span class="square" id="l5"></span><span class="legend_value" id="v5">&gt; $3,000,000</span><br />
 			</div>
 			
 			<!-- container for our video presentation -->
@@ -788,7 +788,7 @@
 			<span id="avg_price_lbl">Average Price</span><span id="avg_zest_lbl">Average Zestimate</span>
 					
 			<!-- placeholder for zip code info -->
-			<div id="details"><div id="detailsBoston"></div><div id="detailsZip"></div><div id="bar_help">[ PLEASE SELECT A ZIP CODE FOR DETAILS ]</div></div>
+			<div id="details"><div id="detailsBoston"></div><div id="detailsZip"></div><div id="bar_help">[ PLEASE SELECT A ZIP CODE FROM THE MAP FOR DETAILS ]</div></div>
 
 			<!-- container for our timeline histogram -->
 			<div id="timelineLabel" data-position="top" data-intro="Contrary to popular belief, the activity of home sales has significantly increased over the last 2 years. From our previous example, Beacon Hill shows a relative low activity of home sales. South Boston is picking up in popularity. Sales have picked up just within the past year or so." data-step="4">

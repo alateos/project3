@@ -41,11 +41,17 @@ $(function() {
     $( "#controls" ).draggable();
 });
 
+// exit presentation if user clicks on controls box
+$("#controls").click(function() {
+  introJs().exit();
+});
+
 /** toggles between showing and hiding the filter controls */
 function toggleFilters() {
 	$("#controls").toggle();
     if (d3.select("#toggleFilters").html() != "HIDE Filters") {
         $("#toggleFilters").html("HIDE Filters");
+		$("#legend").css("z-index","1");
     } else {
         $("#toggleFilters").html("FILTER");
     }
@@ -128,7 +134,7 @@ function filter(changeChart) {
 		} else if(sold.checked == true){
 		selected_array = data_sold;
 	}
-    
+
 	// populate bedrooms array
 	for(var i in checkboxes) {
 		if(checkboxes[i].className == "bedrooms") { 
@@ -166,17 +172,15 @@ function filter(changeChart) {
     if (changeChart==2) {
         // clear out details on demand div
         document.getElementById("detailsZip").innerHTML = "";
-        d3.select("#bar_help").text("[ PLEASE SELECT A ZIP CODE FOR DETAILS ]");
+        d3.select("#bar_help").text("[ PLEASE SELECT A ZIP CODE FROM THE MAP FOR DETAILS ]");
     
-        // clear out bullet graph
+        // clear out bar graph
         clearBarChart();
-    }
-	
-	// if map is loaded, redraw polygons
-	if(map) {
+		initBarChart();
 		clearPolygons();
 		layPolygons();
-	} 
+		createTimeline();
+    }
 }
 
 /** clears out bullet graph */
@@ -214,13 +218,13 @@ function layPolygons() {
 	}
 	
 	var legend_content = "";
-	
+
 	// fill the legend area depending on user's choice of average price or number of listings
 	if(document.getElementById("average").checked) {
-		legend_content = "<span class='square' id='l1'></span><span class='legend_value' id='v1'>$0 - $250,000</span><span class='square' id='l2'></span><span class='legend_value' id='v2'>$250,000 - $500,000</span><span class='square' id='l3'></span><span class='legend_value' id='v3'>$500,000 - $1,000,000</span><span class='square' id='l4'></span><span class='legend_value' id='v4'>$1,000,000 - $3,000,000</span><span class='square' id='l5'></span><span class='legend_value' id='v5'>More than $3,000,000</span>";
+		legend_content = "<span class='square' id='l1'></span><span class='legend_value' id='v1'>$250,000</span><br /><span class='square' id='l2'></span><span class='legend_value' id='v2'>$500,000</span><br /><span class='square' id='l3'></span><span class='legend_value' id='v3'>$1,000,000</span><br /><span class='square' id='l4'></span><span class='legend_value' id='v4'>$3,000,000</span><br /><span class='square' id='l5'></span><span class='legend_value' id='v5'>&gt; $3,000,000</span>";
 		$("#legend").html(legend_content);		
 	} else if(document.getElementById("count").checked) {
-		legend_content = "<span class='square' id='l1'></span><span class='legend_value' id='v1'>0-50 listings</span><span class='square' id='l2'></span><span class='legend_value' id='v2'>50-100 listings</span><span class='square' id='l3'></span><span class='legend_value' id='v3'>100-200 listings</span><span class='square' id='l4'></span><span class='legend_value' id='v4'>200-300 listings</span><span class='square' id='l5'></span><span class='legend_value' id='v5'>More than 300 listings</span>";
+		legend_content = "<span class='square' id='l1'></span><span class='legend_value' id='v1'>25 listings</span><br /><span class='square' id='l2'></span><span class='legend_value' id='v2'>50 listings</span><br /><span class='square' id='l3'></span><span class='legend_value' id='v3'>75 listings</span><br /><span class='square' id='l4'></span><span class='legend_value' id='v4'>100 listings</span><br /><span class='square' id='l5'></span><span class='legend_value' id='v5'>&gt; 100 listings</span>";
 		$("#legend").html(legend_content);	
 	}
 }
@@ -288,6 +292,13 @@ function withCommas(x) {
 /** returns html markup for details on demand, based on user input */
 function getDetails(zip) {
 	var text = "<span class='label'>Zip Code: </span><span class='value'>" + "0" + zip + " (" + getZipName(zip) + ")" + "</span>";
+	document.getElementById("detailsBoston").innerHTML = "<span class='label'>Average Price (Boston):</span><br/><span class='valueBoston'>$"+withCommas(avg_actual_all)+"</span>";
+
+    // average actual price for boston
+	avg_actual_all = getForSaleStats(selected)[1];
+
+	document.getElementById("detailsBoston").innerHTML = "<span class='label'>Average Price (Boston):</span><br/><span class='valueBoston'>$"+withCommas(avg_actual_all)+"</span>";
+	
 	if(document.getElementById("count").checked) {
 		var num_listings = text + "<br />" + "<span class='label'>Number of listings:</span> " + "<span class='value'>" + counts[zip] + "</span>";
 		return num_listings;
@@ -313,15 +324,15 @@ function getFillColor(zip) {
 	// if the radio button for number of listings is checked, return the appropriate color for given zip
 	if(document.getElementById("count").checked) {
 		var num_listings = counts[zip];
-		if(num_listings > 0 && num_listings <= 50) {
+		if(num_listings > 0 && num_listings <= 25) {
 			return colors[0];
-		} else if(num_listings > 50 && num_listings <= 100) {
+		} else if(num_listings > 25 && num_listings <= 50) {
 			return colors[1];
-		} else if(num_listings > 100 && num_listings <= 200) {
+		} else if(num_listings > 50 && num_listings <= 75) {
 			return colors[2];
-		} else if(num_listings > 200 && num_listings <= 300) {
+		} else if(num_listings > 75 && num_listings <= 100) {
 			return colors[3];
-		} else if(num_listings > 300) {
+		} else if(num_listings > 100) {
 			return colors[4];
 		} else {
 			return "transparent";
@@ -377,7 +388,7 @@ function initialize() {
         createPricePerSqFtScatterplot(data_for_sale);
 		
 		// initialize bar chart for the for sale listings, by default
-        initBarChart(data_for_sale);
+        initBarChart();
 	});
 
 	
@@ -729,7 +740,7 @@ function createPricePerSqFtScatterplot(data_in) {
         var downscalex;
 
 		svg.append("g")
-              .attr("class", "x_axis")
+              .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis)
             .append("text")
@@ -737,7 +748,7 @@ function createPricePerSqFtScatterplot(data_in) {
               .attr("x", 100)
               .text("Square Footage (Sq Ft)");
         svg.append("g")
-              .attr("class", "y_axis")
+              .attr("class", "y axis")
               .call(yAxis)
             .append("text")
               .attr("transform", "rotate(-90)")
@@ -761,8 +772,8 @@ function createPricePerSqFtScatterplot(data_in) {
             .attr("r","4")
             .attr("fill-opacity","1")
 			// fill color of the circles
-            .attr("stroke","#01665E")
-            .attr("fill","blue");
+            .attr("stroke","gray")
+            .attr("fill","#BFBFBF");
 }
 
 function updateChartScale(dataIn) {
@@ -856,9 +867,9 @@ function updateChartZip(zip) {
         }
         else {
             d3.select(this)
-            .attr("stroke","lightblue")
-            .attr("fill","blue")            
-            .attr("fill-opacity","0.2")
+            .attr("stroke","light#BFBFBF")
+            .attr("fill","#BFBFBF")            
+            .attr("fill-opacity","0.7")
             .attr("stroke-opacity","0.5")
             .transition().duration()
                     .attr("r", "4");
@@ -1007,7 +1018,7 @@ function createTimeline(zipcode) {
                 if (numberOfSales) {
                     return "this.id='divHover';tooltip.show('Week of: " + String(d[1]).substring(4,16) +"<br/>" + d[0]+ " listings sold in Boston');"
                 } else {
-                    return "this.style.background='darkblue';tooltip.show('Week of: " + String(d[1]).substring(4,16) +"<br/>Average sale price: " + withCommas(d[2]) + "');"
+                    return "this.style.background='dark#BFBFBF';tooltip.show('Week of: " + String(d[1]).substring(4,16) +"<br/>Average sale price: " + withCommas(d[2]) + "');"
                 }
             })
             .attr("onmouseout",function(d,i) {return "this.id='';tooltip.hide();"})
@@ -1205,6 +1216,7 @@ $(function() {
 
 /** emulates the selection of the most expensive area in boston, beacon hill */
 function mostExpensive() {
+	$("#legend").css("z-index","2147483647");
 	google.maps.event.trigger(polygons[0],'click');
 	$("#story_text").html("Beacon hill is the most expensive city in Boston<br /><br />");
 	d3.select("#story_text").append("span").attr("onclick","nearWater()").style("cursor","pointer").text(">>");
