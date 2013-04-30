@@ -141,6 +141,10 @@ body {
     margin-top:20px;
 }
 
+#bedrooms {
+	margin-left:60px;
+}
+
 #listingtypes {
 	padding-left:45px;
 	margin-top:10px;
@@ -412,7 +416,7 @@ iframe {
 #legend {
     background-color: white;
     border: 1px solid black;
-    height: 97px;
+    height: 105px;
     left: 243px;
     margin-left: 30px;
     padding-left: 10px;

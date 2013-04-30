@@ -1177,11 +1177,11 @@ $(function() {
 	  }
 	}).bind({
         slidestart : function(event,ui) {},
-        slidechange : function(event,ui) {$( "#amountSqft" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ]);filter(0)},
+        slidechange : function(event,ui) {$( "#amountSqft" ).val( withCommas(ui.values[ 0 ]) + " - " + withCommas(ui.values[ 1 ]));filter(0)},
         slidestop : function(event,ui) {},
     });
-	$( "#amountSqft" ).val( $( "#slider-range-sqft" ).slider( "values", 0 ) +
-	  " - " + $( "#slider-range-sqft" ).slider( "values", 1 ) + " sq ft");
+	$( "#amountSqft" ).val( withCommas($( "#slider-range-sqft" ).slider( "values", 0 )) +
+	  " - " + withCommas($( "#slider-range-sqft" ).slider( "values", 1 )) + " sq ft");
 });
 
 /** initialize price range slider. range is chosen arbitrarily */
@@ -1197,11 +1197,11 @@ $(function() {
 	  }
 	}).bind({
         slidestart : function(event,ui) {},
-        slidechange : function(event,ui) {$( "#amountPrice" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ]);filter(0)},
+        slidechange : function(event,ui) {$( "#amountPrice" ).val("$" + withCommas(ui.values[ 0 ]) + " - $" + withCommas(ui.values[ 1 ]));filter(0)},
         slidestop : function(event,ui) {},
     });
-	$( "#amountPrice" ).val( "$" +  $("#slider-range-price" ).slider( "values", 0 ) +
-	  " - " +" $"+ $( "#slider-range-price" ).slider( "values", 1 ));
+	$( "#amountPrice" ).val( "$" +  withCommas($("#slider-range-price" ).slider( "values", 0 )) +
+	  " - " +" $"+ withCommas($( "#slider-range-price" ).slider( "values", 1 )));
 });
 
 /** initialize year range slider. range is chosen arbitrarily  */
